@@ -1,0 +1,32 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Add User</title>
+</head>
+<body>
+	<form action="/HelloWeb/admin/user/add" method="post">
+	    <label>Name :</label>
+		<input name="name" type="text">
+		<label>UserName :</label>
+		<input name="username" type="text">
+		<label>Password :</label>
+		<input name="password" type="password">
+		<label>Gender :</label>
+		<input name="gender" type="radio" value="Nam">Nam
+		<input name="gender" type="radio" value="Nu">Nu
+		<label>Age :</label>
+		<input name="age" type="number">
+		<label>Image :</label>
+		<input name="image" type="text">
+		<label>Role :</label>
+		<select name="role">
+			<option value="ROLE_ADMIN">ROLE_ADMIN</option>
+			<option value="ROLE_MEMBER">ROLE_MEMBER</option>
+		</select>	
+		<button type="submit" align="center">Them</button>
+	</form>
+</body>
+</html>

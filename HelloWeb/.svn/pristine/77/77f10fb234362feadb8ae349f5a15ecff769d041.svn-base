@@ -1,0 +1,20 @@
+package com.trungtamjava.dao;
+
+import java.util.List;
+
+import com.trungtamjava.model.ProductCategory;
+
+public interface ProductCategoryDao {
+	void create(ProductCategory productCategory);
+
+	void update(ProductCategory productCategory);
+
+	void delete(int id);
+
+	ProductCategory get(int id);
+
+	ProductCategory get(String name);
+
+	List<ProductCategory> search(String name);
+
+}

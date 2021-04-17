@@ -1,0 +1,168 @@
+package com.trungtamjava.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.trungtamjava.model.Product;
+
+public class ProductDaoImpl extends JDBCConnection implements ProductDao {
+
+	@Override
+	public void delete(int id) {
+		String sql = "DELETE FROM product WHERE id = ?";
+
+		try {
+			Connection conn = super.getConnection();
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
+			preparedStatement.setInt(1, id);
+
+			preparedStatement.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println("Loi: " + e);
+		}
+	}
+
+	@Override
+	public void create(Product product) {
+		// TODO Auto-generated method stub
+		String sql = "INSERT INTO product(name,categoryid, description, price, note) " + "VALUES (?,?,?, ?, ?);";
+		try {
+			Connection conn = super.getConnection();
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
+			preparedStatement.setString(1, product.getName());
+			preparedStatement.setInt(2, product.getProductCategory().getId());
+			preparedStatement.setString(3, product.getDescription());
+			preparedStatement.setString(4, product.getPrice());
+			preparedStatement.setString(5, product.getNote());
+			preparedStatement.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println("Loi: " + e);
+		}
+	}
+
+	@Override
+	public void update(Product product) {
+		String sql = "UPDATE product SET name = ?, description = ?, price = ?, note = ? WHERE id = ?";
+		try {
+			Connection conn = super.getConnection();
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
+			
+			preparedStatement.setString(1, product.getName());
+			preparedStatement.setString(2, product.getDescription());
+			preparedStatement.setString(3, product.getPrice());
+			preparedStatement.setString(4, product.getNote());
+			preparedStatement.setInt(5, product.getId());
+
+			preparedStatement.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println("Loi: " + e);
+		}
+	}
+
+	@Override
+	public Product get(int id) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM product WHERE id = ?";
+
+		try {
+			Connection conn = super.getConnection();
+
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
+			preparedStatement.setInt(1, id);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				Product product = new Product();
+
+				product.setId(resultSet.getInt("id"));
+				product.setName(resultSet.getString("name"));
+				product.setDescription(resultSet.getString("description"));
+				product.setPrice(resultSet.getString("price"));
+				product.setNote(resultSet.getString("note"));
+
+				return product;
+			}
+
+		} catch (Exception e) {
+			System.out.println("Loi: " + e);
+		}
+
+		return null;
+	}
+
+	@Override
+	public Product get(String name) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT * FROM product WHERE name = ?";
+
+		try {
+			Connection conn = super.getConnection();
+
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
+			preparedStatement.setString(1, name);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				Product product = new Product();
+
+				product.setId(resultSet.getInt("id"));
+				product.setName(resultSet.getString("name"));
+				product.setDescription(resultSet.getString("description"));
+				product.setPrice(resultSet.getString("price"));
+				product.setNote(resultSet.getString("age"));
+
+				return product;
+			}
+
+		} catch (Exception e) {
+			System.out.println("Loi: " + e);
+		}
+
+		return null;
+	}
+
+	@Override
+	public List<Product> search(String name) {
+		// TODO Auto-generated method stub
+		List<Product> products = new ArrayList<>();
+
+		String sql = "SELECT * FROM product WHERE name LIKE ?";
+		try {
+			Connection conn = super.getConnection();
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+
+			preparedStatement.setString(1, "%" + name + "%");
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				Product product = new Product();
+
+				product.setId(resultSet.getInt("id"));
+				product.setName(resultSet.getString("name"));
+				product.setDescription(resultSet.getString("description"));
+				product.setPrice(resultSet.getString("price"));
+				product.setNote(resultSet.getString("note"));
+
+				products.add(product);
+			}
+		} catch (Exception e) {
+			System.out.println("Loi: " + e);
+		}
+
+		return products;
+	}
+}
